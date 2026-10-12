@@ -1,0 +1,29 @@
+{
+  "name": "ene-desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ENE desktop companion: a Tauri desktop-pet body for the OpenClaw ENE agent",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "bridge": "node bridge/ene-bridge.mjs",
+    "tauri": "tauri",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@openclaw/gateway-client": "2026.8.1",
+    "@openclaw/gateway-protocol": "2026.8.1",
+    "@pixiv/three-vrm": "^3.5.5",
+    "@tauri-apps/api": "^2.12.3",
+    "three": "^0.186.1",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.12.2",
+    "@types/three": "^0.186.0",
+    "@types/ws": "^8.18.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/
+.claude/
+*.tmp.mjs
+
+# Personal character models stay local (fan-made ENE isn't ours to redistribute).
+public/models/*.vrm

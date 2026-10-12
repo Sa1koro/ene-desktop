@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#141a2e"/>
+  <!-- twin tails -->
+  <path d="M96 210 C60 300 70 380 110 440" stroke="#3cbcf0" stroke-width="46" fill="none" stroke-linecap="round"/>
+  <path d="M416 210 C452 300 442 380 402 440" stroke="#3cbcf0" stroke-width="46" fill="none" stroke-linecap="round"/>
+  <!-- face -->
+  <circle cx="256" cy="270" r="150" fill="#ffe6da"/>
+  <!-- hair + bangs -->
+  <path d="M106 250 C110 140 180 100 256 100 C332 100 402 140 406 250 L370 220 L345 262 L318 205 L290 262 L256 200 L222 262 L194 205 L167 262 L142 220 Z" fill="#3cbcf0"/>
+  <!-- headphones -->
+  <path d="M86 260 C86 120 170 64 256 64 C342 64 426 120 426 260" stroke="#0b0e18" stroke-width="22" fill="none"/>
+  <rect x="62" y="225" width="58" height="96" rx="24" fill="#0b0e18"/>
+  <rect x="392" y="225" width="58" height="96" rx="24" fill="#0b0e18"/>
+  <circle cx="91" cy="273" r="16" fill="none" stroke="#5fe1ff" stroke-width="7"/>
+  <circle cx="421" cy="273" r="16" fill="none" stroke="#5fe1ff" stroke-width="7"/>
+  <!-- eyes -->
+  <ellipse cx="200" cy="290" rx="22" ry="30" fill="#2fb4ef"/>
+  <ellipse cx="312" cy="290" rx="22" ry="30" fill="#2fb4ef"/>
+  <circle cx="193" cy="280" r="8" fill="#fff"/>
+  <circle cx="305" cy="280" r="8" fill="#fff"/>
+  <!-- smug cat mouth -->
+  <path d="M232 350 Q244 362 256 350 Q268 362 280 350" stroke="#1b2340" stroke-width="7" fill="none" stroke-linecap="round"/>
+</svg>

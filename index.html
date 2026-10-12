@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ENE</title>
+  </head>
+  <body>
+    <canvas id="stage"></canvas>
+
+    <div id="bubble">
+      <div id="bubble-text"></div>
+    </div>
+    <div id="chip"></div>
+
+    <div id="input-bar">
+      <input id="input" placeholder="跟 ENE 说点什么… (Enter 发送, Esc 收起)" autocomplete="off" />
+      <button id="send" title="发送">➤</button>
+      <button id="stop" title="停止">■</button>
+    </div>
+
+    <div id="menu"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
