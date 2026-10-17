@@ -7,6 +7,8 @@ export const EMOTIONS = [
   "surprised",
   "sad",
   "thinking",
+  "shy",
+  "love",
 ] as const;
 
 export type Emotion = (typeof EMOTIONS)[number];
@@ -31,6 +33,12 @@ const TAG_ALIASES: Record<string, Emotion> = {
   cry: "sad",
   thinking: "thinking",
   think: "thinking",
+  shy: "shy",
+  blush: "shy",
+  embarrassed: "shy",
+  love: "love",
+  heart: "love",
+  adore: "love",
 };
 
 const TAG_RE = /[[【]\s*([a-z]+)\s*[\]】]/gi;
@@ -57,6 +65,8 @@ export function parseEmotionTags(text: string): { clean: string; cues: EmotionCu
 const HEURISTICS: Array<[RegExp, Emotion]> = [
   [/😠|💢|😤|笨蛋|バカ|baka|哼[！!]|可恶|气死/i, "angry"],
   [/😢|😭|🥺|呜+|抱歉|对不起|sorry|ごめん|失败/i, "sad"],
+  [/❤|♥|💕|💖|😍|🥰|喜欢你|最喜欢|爱你|大好き/i, "love"],
+  [/😳|☺|害羞|不好意思|脸红|照れ|恥ずかし|\/\/\//i, "shy"],
   [/[!！][?？]|[?？][!！]|欸|诶|えっ|什么[?？！!]|\bwhat\b|😲|😮/i, "surprised"],
   [/😏|😼|\bhehe\b|嘿嘿|哼哼|～$|呢～|ふふ|就知道/i, "smug"],
   [/☆|★|✨|🎉|太棒|好耶|やった|\byay\b|哈哈哈|www/i, "excited"],

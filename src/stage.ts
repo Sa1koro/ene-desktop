@@ -16,6 +16,7 @@ import {
   SRGBColorSpace,
   WebGLRenderer,
 } from "three";
+import { OutlineEffect } from "three/examples/jsm/effects/OutlineEffect.js";
 import type { Avatar } from "./avatar/types";
 
 const MAX_SPARKS = 48;
@@ -48,6 +49,9 @@ export class Stage {
   private readonly sparkVel = new Float32Array(MAX_SPARKS * 3);
   private readonly sparkLife = new Float32Array(MAX_SPARKS);
   private ringBoost = 0;
+  private outline: OutlineEffect | null = null;
+  private readonly ambient = new HemisphereLight(0xffffff, 0x8ab4ff, 1.6);
+  private readonly key = new DirectionalLight(0xffffff, 2.2);
   private readonly tickers: Array<(dt: number, t: number) => void> = [];
 
   constructor(
@@ -62,10 +66,9 @@ export class Stage {
     this.camera.position.set(0, 2.5, 12.5);
     this.camera.lookAt(0, 2.3, 0);
 
-    this.scene.add(new HemisphereLight(0xffffff, 0x8ab4ff, 1.6));
-    const key = new DirectionalLight(0xffffff, 2.2);
-    key.position.set(2.5, 5, 6);
-    this.scene.add(key);
+    this.scene.add(this.ambient);
+    this.key.position.set(2.5, 5, 6);
+    this.scene.add(this.key);
 
     this.ring = new Mesh(
       new RingGeometry(0.75, 0.95, 48),
@@ -106,6 +109,15 @@ export class Stage {
     this.scene.remove(this.avatar.root);
     this.avatar = avatar;
     this.scene.add(avatar.root);
+    this.ambient.intensity = avatar.lighting?.ambient ?? 1.6;
+    this.key.intensity = avatar.lighting?.key ?? 2.2;
+    if (avatar.outlined && !this.outline) {
+      this.outline = new OutlineEffect(this.renderer);
+      // Only the character gets ink lines, not the hologram effects.
+      const noOutline = { visible: false };
+      this.ring.material.userData.outlineParameters = noOutline;
+      this.sparks.material.userData.outlineParameters = noOutline;
+    }
   }
 
   onTick(fn: (dt: number, t: number) => void) {
@@ -139,7 +151,8 @@ export class Stage {
       for (const fn of this.tickers) fn(dt, t);
       this.avatar.update(dt, t);
       this.updateFx(dt, t);
-      this.renderer.render(this.scene, this.camera);
+      if (this.avatar.outlined && this.outline) this.outline.render(this.scene, this.camera);
+      else this.renderer.render(this.scene, this.camera);
       requestAnimationFrame(loop);
     };
     requestAnimationFrame(loop);

@@ -73,6 +73,7 @@ export class ChibiAvatar implements Avatar {
   private look = { x: 0, y: 0, tx: 0, ty: 0 };
   private blink = { value: 0, nextAt: 2, closingUntil: 0 };
   private blush = 0;
+  private blushHold = 0;
   private gesture: { name: Gesture; t: number } | null = null;
   private busy: BusyPose | null = null;
   private busyT = 0;
@@ -251,7 +252,9 @@ export class ChibiAvatar implements Avatar {
   // ---------------------------------------------------------------- Avatar API
 
   setEmotion(emotion: Emotion) {
-    this.emotion = emotion;
+    // The painted face has no shy/love drawings: reuse happy/excited with a held blush.
+    this.blushHold = emotion === "shy" || emotion === "love" ? 0.8 : 0;
+    this.emotion = emotion === "shy" ? "happy" : emotion === "love" ? "excited" : emotion;
   }
 
   setMouth(open: number) {
@@ -428,7 +431,7 @@ export class ChibiAvatar implements Avatar {
     b.value += (target - b.value) * (1 - Math.exp(-40 * dt));
 
     this.mouth += (this.mouthTarget - this.mouth) * (1 - Math.exp(-25 * dt));
-    this.blush = Math.max(0, this.blush - dt * 0.4);
+    this.blush = Math.max(this.blushHold, this.blush - dt * 0.4);
 
     this.face.draw({
       emotion: this.emotion,

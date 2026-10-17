@@ -263,7 +263,7 @@ export class Director {
 
     const ch = this.target[now] ?? " ";
     const flap = PUNCTUATION.test(ch) ? 0 : 0.35 + Math.abs(Math.sin(t * 17)) * 0.65;
-    this.avatar.setMouth(now < this.target.length ? flap : 0);
+    this.avatar.setMouth(now < this.target.length ? flap : 0, this.target[now - 1]);
 
     if (now >= this.target.length) {
       // Deltas may still be streaming; only wrap up once the run is final.
@@ -307,6 +307,7 @@ export class Director {
       } else if (emotion === "surprised") this.avatar.play("jump");
       else if (emotion === "angry") this.avatar.play("shake");
       else if (emotion === "sad") this.avatar.play("nod");
+      else if (emotion === "love") this.stage.burst(8);
     }
   }
 

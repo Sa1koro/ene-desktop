@@ -14,6 +14,8 @@ const EXPRESSIONS: Record<Emotion, Partial<Record<string, number>>> = {
   surprised: { surprised: 1 },
   sad: { sad: 0.85 },
   thinking: { relaxed: 0.35 },
+  shy: { happy: 0.35, relaxed: 0.35 },
+  love: { happy: 1, relaxed: 0.2 },
 };
 const PRESETS = ["happy", "angry", "sad", "relaxed", "surprised"];
 

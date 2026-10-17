@@ -1,13 +1,18 @@
 import { ChibiAvatar } from "./avatar/chibi";
+import type { Avatar } from "./avatar/types";
 import { loadVrmAvatar } from "./avatar/vrm";
 import { BridgeClient } from "./bridge";
 import { Director } from "./director";
 import { Stage } from "./stage";
 import { Bubble, ChatInput, Chip, ContextMenu } from "./ui";
+import { mmd, vrm } from "virtual:models";
 import "./styles.css";
 
 const isTauri = "__TAURI_INTERNALS__" in window;
-const VRM_URL = "/models/ene.vrm";
+// Whatever model sits in public/models, found at build time (scripts/models.mjs): the
+// app can't probe for it, since Tauri serves .pmx files as text/html like a 404 page.
+const MMD_URL = mmd && encodeURI(mmd);
+const VRM_URL = vrm && encodeURI(vrm);
 
 const canvas = document.querySelector<HTMLCanvasElement>("#stage")!;
 const chibi = new ChibiAvatar();
@@ -29,16 +34,29 @@ stage.onTick((dt, t) => director.tick(dt, t));
 stage.start();
 bridge.connect();
 
-// Swap in a VRM body if one has been dropped into public/models/ene.vrm.
-// (Vite answers unknown paths with index.html, so check the content type.)
-fetch(VRM_URL, { method: "HEAD" })
-  .then(async (res) => {
-    if (!res.ok || res.headers.get("content-type")?.includes("text/html")) return;
-    const vrm = await loadVrmAvatar(VRM_URL);
-    stage.setAvatar(vrm);
-    director.setAvatar(vrm);
+// Swap in a model body if one sits in public/models: the MMD model first, then a VRM.
+async function loadModelBody(): Promise<Avatar | null> {
+  if (MMD_URL) {
+    try {
+      // Loaded on demand: the loader and Ammo physics are ~2 MB the chibi doesn't need.
+      const { loadMmdAvatar } = await import("./avatar/mmd");
+      return await loadMmdAvatar(MMD_URL);
+    } catch (err) {
+      console.warn("MMD load failed, trying VRM", err);
+    }
+  }
+  if (VRM_URL) return loadVrmAvatar(VRM_URL);
+  return null;
+}
+
+loadModelBody()
+  .then((body) => {
+    if (!body) return;
+    stage.setAvatar(body);
+    director.setAvatar(body);
+    if (import.meta.env.DEV) Object.assign(window, { ene: { avatar: body, director, stage } });
   })
-  .catch((err) => console.warn("VRM load failed, keeping chibi ENE", err));
+  .catch((err) => console.warn("Model load failed, keeping chibi ENE", err));
 
 // Eyes follow the pointer; head sits roughly 40% from the top of the window.
 window.addEventListener("pointermove", (e) => {

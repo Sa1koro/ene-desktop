@@ -13,9 +13,13 @@ export type BusyPose = "think" | "dive" | "typing" | "listen";
  */
 export interface Avatar {
   readonly root: Object3D;
+  /** Ask the stage to draw toon outlines (MMD edge lines) around this body. */
+  readonly outlined?: boolean;
+  /** Stage light intensities this body's materials were tuned for. */
+  readonly lighting?: { ambient: number; key: number };
   setEmotion(emotion: Emotion): void;
-  /** 0 = closed, 1 = wide open. Driven by speech. */
-  setMouth(open: number): void;
+  /** 0 = closed, 1 = wide open. Driven by speech; `char` is the character being spoken. */
+  setMouth(open: number, char?: string): void;
   /** Normalized pointer position, -1..1 on both axes. */
   lookAt(x: number, y: number): void;
   play(gesture: Gesture): void;

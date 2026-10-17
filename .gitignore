@@ -4,6 +4,7 @@ src-tauri/target/
 src-tauri/gen/
 .claude/
 *.tmp.mjs
+release/
 
-# Personal character models stay local (fan-made ENE isn't ours to redistribute).
-public/models/*.vrm
+# VMD motions from the MMD community come with their own terms; keep them local.
+public/models/motions/
