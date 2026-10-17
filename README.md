@@ -7,6 +7,9 @@
 - 不连 OpenClaw 也能直接看效果：她会眨眼、呼吸、看向鼠标，被戳会有反应。
 - 连上 OpenClaw 后就能聊天：表情和口型跟着回复逐句变化。
 
+> 这里是 ENE 的**身体**。她的**灵魂**在姊妹仓库 [**openENE**](https://github.com/Sa1koro/openENE)：
+> 那是 OpenClaw 用的 ENE 人设、记忆和网关配置模板（已脱敏）。两边配合使用，就是完整的 ENE。
+
 ## 快速开始（新手看这里）
 
 ### 1. 安装 Node.js
@@ -99,7 +102,9 @@
                      OpenClaw 网关 → ENE 智能体（记忆、工具、人设）
 ```
 
-先在本机运行 OpenClaw 网关，再启动 ENE：
+先在本机运行 OpenClaw 网关，再启动 ENE。
+还没有 ENE 人设的话，按 [openENE](https://github.com/Sa1koro/openENE) 的说明把人设和记忆装进 OpenClaw 工作区。
+
 
 - **桌面版**：会自动启动 bridge。
   - `start.bat`（`tauri dev`）用电脑上的 Node.js 运行 `bridge/ene-bridge.mjs`。
